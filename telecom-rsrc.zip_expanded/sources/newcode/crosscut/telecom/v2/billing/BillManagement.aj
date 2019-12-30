@@ -1,5 +1,4 @@
 package telecom.v2.billing;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ public privileged aspect BillManagement {
 		price = newPrice;
 	}
 	
-	//on injecte une map statique qui associe pour un client un prix avec un getteur
+	//on injecte une map qui associe pour un client un prix avec un getteur
 	private Map<ICustomer, Integer> Call.prices = new HashMap<ICustomer, Integer>();
 	public Map<ICustomer, Integer> Call.getPrices() {
 		return prices;
@@ -43,18 +42,18 @@ public privileged aspect BillManagement {
 	}
 
 	//On reprend les outils de la V1    
-    enum State { PENDING, COMPLETE, DROPPED }
-
-    enum Type {
-        LOCAL(3),
-        NATIONAL(10);
-        private int rate;
-        Type(int r) {
-            rate = r;
-        }
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
+	enum State { PENDING, COMPLETE, DROPPED }
+	
+	enum Type {
+	    LOCAL(3),
+	    NATIONAL(10);
+	    private int rate;
+	    Type(int r) {
+	        rate = r;
+	    }
+	    @Override
+	    public String toString() {
+	        return name().toLowerCase();
+	    }
+	}
 }

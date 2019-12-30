@@ -13,27 +13,27 @@ public aspect TimeManagement {
 	//On injecte une map qui associe un timer a un client ainsi que un accesseur et une méthode pour ajouter un couple client timer
     private Map<ICustomer, Timer> Call.timers = new HashMap<ICustomer, Timer>();
     
-    public Timer Call.getTimer(ICustomer client) {
-    	return timers.get(client);
-    }
-    
-    public void Call.addTimer(ICustomer client, Timer timer) {
-    	timers.put(client, timer);
-    }
-    
-    //On initialise une nouvelle map de timers quand l'appel est initialisé
+	public Timer Call.getTimer(ICustomer client) {
+		return timers.get(client);
+	}
+	
+	public void Call.addTimer(ICustomer client, Timer timer) {
+		timers.put(client, timer);
+	}
+	
+	//On initialise une nouvelle map de timers quand l'appel est initialisé
     after(Call cal) : Pointcuts.callInitialized() && this(cal) {
     	cal.timers = new HashMap<ICustomer, Timer>();
     }
-   
-    //Quand un nouveau client lance un appel on ajoute un timer et on le démarre.
-    after(Call cal, ICustomer client) : Pointcuts.callCompleted() && this(cal) && args(client){
-    	cal.addTimer(client, new Timer());
-    	cal.getTimer(client).start();
-    }
-    
-    after(Call cal, ICustomer client) : Pointcuts.callFinished() && this(cal) && args(client) {
-    	cal.getTimer(client).stop();
-    	// TODO ICI FAUDRA QU ON TRACE LE TEMPS DE CO.
-    }
+	   
+	    //Quand un nouveau client lance un appel on ajoute un timer et on le démarre.
+	after(Call cal, ICustomer client) : Pointcuts.callCompleted() && this(cal) && args(client){
+		cal.addTimer(client, new Timer());
+		cal.getTimer(client).start();
+	}
+	
+	after(Call cal, ICustomer client) : Pointcuts.callFinished() && this(cal) && args(client) {
+		cal.getTimer(client).stop();
+		// TODO ICI FAUDRA QU ON TRACE LE TEMPS DE CO.
+	}
 }
