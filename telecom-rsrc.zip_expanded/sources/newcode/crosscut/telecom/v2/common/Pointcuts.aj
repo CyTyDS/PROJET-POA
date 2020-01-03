@@ -29,4 +29,5 @@ public aspect Pointcuts {
 	// Detect l'appel a pickUp() D'un ICall
 	public pointcut callPickUp() : call(* telecom.v2.connect.ICall.pickUp(..));
 
+
 }
