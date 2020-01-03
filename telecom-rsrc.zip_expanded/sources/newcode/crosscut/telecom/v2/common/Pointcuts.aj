@@ -12,21 +12,21 @@ public aspect Pointcuts {
 	public pointcut callFinished() : withincode(void telecom.v2.connect.Call.hangUp(..)) && (call(* *.get(..)) || call(* *.remove(..)));
 	
 	// Detect l'appel a call() d'un ICustomer
-	public pointcut customerCall() : call(* *.ICustomer.call(..));
+	public pointcut customerCall() : call(* telecom.v2.connect.ICustomer.call(..));
 	
 	// Detect l'appel a hangUp() d'un ICustomer
-	public pointcut customerHangUp() : call(* *.ICustomer.hangUp(..));
+	public pointcut customerHangUp() : call(* telecom.v2.connect.ICustomer.hangUp(..));
 
 	// Detect l'appel a pickUp() d'un ICustomer
-	public pointcut customerPickUp() : call(* *.ICustomer.pickUp(..));
+	public pointcut customerPickUp() : call(* telecom.v2.connect.ICustomer.pickUp(..));
 
 	// Detect l'appel a invite() d'un ICall
-	public pointcut callInvite() : call(* *.ICall.invite(..));
+	public pointcut callInvite() : call(* telecom.v2.connect.ICall.invite(..));
 
 	// Detect l'appel a hangUp() d'un ICall
-	public pointcut callHangUp() : call(* *.ICall.hangUp(..));
+	public pointcut callHangUp() : call(* telecom.v2.connect.ICall.hangUp(..));
 
 	// Detect l'appel a pickUp() D'un ICall
-	public pointcut callPickUp() : call(* *.ICall.pickUp(..));
+	public pointcut callPickUp() : call(* telecom.v2.connect.ICall.pickUp(..));
 
 }
