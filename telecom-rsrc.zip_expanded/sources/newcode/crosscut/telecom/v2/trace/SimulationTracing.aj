@@ -6,20 +6,25 @@ import telecom.v2.trace.SimulationMessages;
 
 public aspect SimulationTracing {
 	
-//	private SimulationFormatter indenter = new SimulationFormatter(0,"");
+	private SimulationFormatter indenter = new SimulationFormatter(0,"| ");
 	
 	//Factorisation de code
 	private void addMessageBefore(JoinPoint jp, Object x) {
 		String methName = jp.getSignature().getName();
 		SimulationMessages sm = SimulationMessages.get(x.getClass(),methName);
+		System.out.print(indenter.getIndent());
 		System.out.println(sm.format(jp));
+		indenter.addLevel();
 		//indenter ici ou dans l'advice
 	}
 	
 	//Factorisation de code
 	private void addMessageAfter(JoinPoint jp , Object x) {
 		SimulationMessages sm = SimulationMessages.get(x.getClass(), "final");
+		System.out.print(indenter.getIndent());
 		System.out.println(sm.format(jp));
+		indenter.removeLevel();
+
 	}
 	
 	//Avant tout les appel a des methode de customer (TODO)
