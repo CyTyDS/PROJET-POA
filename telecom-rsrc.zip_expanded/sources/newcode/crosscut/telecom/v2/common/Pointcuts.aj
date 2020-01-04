@@ -1,5 +1,7 @@
 package telecom.v2.common;
 
+import telecom.v2.unicity.UniqueId;
+
 public aspect Pointcuts {
 	
 	//Detecte le début d'un appel
@@ -32,5 +34,10 @@ public aspect Pointcuts {
 	//Detect l'appel aux differentes simumlation
 	public pointcut testsCall() : call(void telecom.v2.simulate.Simulation.runTest*(..)); 
 	
-
+	// Detecte l'unicité d'un client
+	// Si le nom d'un client n'est pas unique, une NotUniqueException est levée
+	public pointcut checkUnicity() : set(@UniqueId final String telecom.v2.connect.*.*);
+	
+	// Detecte si l'utilisation de l'annotation UniqueId est correcte
+	public pointcut checkUniqueIdIsOk() : set(@UniqueId !final !String telecom.v2.connect.*.*);
 }
