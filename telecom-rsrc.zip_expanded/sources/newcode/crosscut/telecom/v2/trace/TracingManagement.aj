@@ -53,7 +53,7 @@ public privileged aspect TracingManagement {
 //	after(Call ca, ICustomer cust) : Pointcuts.callPickUp() && this(ca) && args(cust) {
 //		ca.ourPending.remove(cust);
 //	}
-	after(Call ca, ICustomer cust) : Pointcuts.callHangUp() && this(ca) && args(cust) {
+	after(Call ca, ICustomer cust) : Pointcuts.callDropped() && this(ca) && args(cust) {
 		ca.dropped.add(cust);
 	}
 

@@ -31,6 +31,9 @@ public aspect Pointcuts {
 	// Detect l'appel a pickUp() D'un ICall
 	public pointcut callPickUp() : call(* telecom.v2.connect.ICall.pickUp(..));
 	
+	public pointcut callDropped() :
+    	withincode(* telecom.v2.connect.Call.hangUp(..)); 
+    
 	//Detect l'appel aux differentes simumlation
 	public pointcut testsCall() : call(void telecom.v2.simulate.Simulation.runTest*(..)); 
 	
