@@ -25,6 +25,14 @@ public class SimulationFormatter {
         this.level = level;
     }
     
+    public void addLevel() {
+    	this.level += 1;
+    }
+    
+    public void removeLevel() {
+    	this.level -= 1;
+    }
+    
     public String getS() {
         return s;
     }

@@ -1,5 +1,7 @@
 package telecom.v2.common;
 
+import telecom.v2.unicity.UniqueId;
+
 public aspect Pointcuts {
 	
 	//Detecte le début d'un appel
@@ -11,4 +13,31 @@ public aspect Pointcuts {
 	// Detecte la fin d'un appel (changement de l'état de la connection en DROPPED)
 	public pointcut callFinished() : withincode(void telecom.v2.connect.Call.hangUp(..)) && (call(* *.get(..)) || call(* *.remove(..)));
 	
+	// Detect l'appel a call() d'un ICustomer
+	public pointcut customerCall() : call(* telecom.v2.connect.ICustomer.call(..));
+	
+	// Detect l'appel a hangUp() d'un ICustomer
+	public pointcut customerHangUp() : call(* telecom.v2.connect.ICustomer.hangUp(..));
+
+	// Detect l'appel a pickUp() d'un ICustomer
+	public pointcut customerPickUp() : call(* telecom.v2.connect.ICustomer.pickUp(..));
+
+	// Detect l'appel a invite() d'un ICall
+	public pointcut callInvite() : call(* telecom.v2.connect.ICall.invite(..));
+
+	// Detect l'appel a hangUp() d'un ICall
+	public pointcut callHangUp() : call(* telecom.v2.connect.ICall.hangUp(..));
+
+	// Detect l'appel a pickUp() D'un ICall
+	public pointcut callPickUp() : call(* telecom.v2.connect.ICall.pickUp(..));
+	
+	//Detect l'appel aux differentes simumlation
+	public pointcut testsCall() : call(void telecom.v2.simulate.Simulation.runTest*(..)); 
+	
+	// Detecte l'unicité d'un client
+	// Si le nom d'un client n'est pas unique, une NotUniqueException est levée
+	public pointcut checkUnicity() : set(@UniqueId final String telecom.v2.connect.*.*);
+	
+	// Detecte si l'utilisation de l'annotation UniqueId est correcte
+	public pointcut checkUniqueIdIsOk() : set(@UniqueId !final !String telecom.v2.connect.*.*);
 }
