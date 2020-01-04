@@ -15,7 +15,6 @@ public aspect SimulationTracing {
 		System.out.print(indenter.getIndent());
 		System.out.println(sm.format(jp));
 		indenter.addLevel();
-		//indenter ici ou dans l'advice
 	}
 	
 	//Factorisation de code
@@ -24,7 +23,9 @@ public aspect SimulationTracing {
 		indenter.removeLevel();
 		System.out.print(indenter.getIndent());
 		System.out.println(sm.format(jp));
-		System.out.println();
+		if (indenter.getLevel() == 0) {
+			System.out.println();
+		}
 
 
 	}
@@ -56,6 +57,9 @@ public aspect SimulationTracing {
 		addMessageAfter(jp,x);
 	}
 	
+	after() : Pointcuts.testsCall() {
+		System.out.println("----------------------------------------");
+	}
 	
 
 }
