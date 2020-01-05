@@ -1,4 +1,5 @@
 package telecom.v2.billing;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,21 +25,27 @@ public privileged aspect BillManagement {
 	}
 	
 	//Après l'appel, on facture.
-	after(Call cal, ICustomer client) : Pointcuts.callFinished()  && this(cal) && args(client) {
+	after(Call cal, ICustomer client, Object mapcomplete) : Pointcuts.callFinished()  && this(cal) && args(client) && target(mapcomplete) {
 		try {
-			//On vérifie la localisation pour savoir comment on facture.
-			if (cal.getCaller().getAreaCode() == client.getAreaCode()) {
-				int price = cal.getTimer(client).getTime() * Type.LOCAL.rate;
-				cal.getPrices().put(client, price);
-				cal.price += price;
-			} else {
-				int price = cal.getTimer(client).getTime() * Type.NATIONAL.rate;
-				cal.getPrices().put(client, price);
-				cal.price += price;	
+			// vérification que les instances correspondent
+			Field field = cal.getClass().getDeclaredField("complete");
+			//On ne veut pas throw d'illegalaccessexception
+			field.setAccessible(true);
+			if (field.get(cal) == mapcomplete) {
+				//On vérifie la localisation pour savoir comment on facture.
+				if (cal.getCaller().getAreaCode() == client.getAreaCode()) {
+					int price = cal.getTimer(client).getTime() * Type.LOCAL.rate;
+					cal.getPrices().put(client, price);
+					cal.price += price;
+				} else {
+					int price = cal.getTimer(client).getTime() * Type.NATIONAL.rate;
+					cal.getPrices().put(client, price);
+					cal.price += price;	
+				}
 			}
-		} catch (IllegalArgumentException | SecurityException e) {
+		} catch (IllegalArgumentException | SecurityException | NoSuchFieldException | IllegalAccessException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	//On reprend les outils de la V1    
