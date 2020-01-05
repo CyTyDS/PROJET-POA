@@ -31,8 +31,14 @@ public aspect Pointcuts {
 	// Detect l'appel a pickUp() D'un ICall
 	public pointcut callPickUp() : call(* telecom.v2.connect.ICall.pickUp(..));
 	
-	public pointcut callDropped() :
-    	withincode(* telecom.v2.connect.Call.hangUp(..)); 
+	public pointcut globalHangUp() : call(* telecom.v2.connect.IC*.hangUp(..));
+	public pointcut globalPickUp() : call(* telecom.v2.connect.IC*.pickUp(..));
+	public pointcut globalInvite() : call(* telecom.v2.connect.IC*.invite(..));
+	
+	public pointcut callDropped() : withincode(* telecom.v2.connect.Call.hangUp(..)); 
+	
+	// Detecte les appels a getcall
+	public pointcut getCallCalled() :call(* *.getCall(..));
 	
 	// Detecte les changements d'états des connections
 	public pointcut connectionPending() : execution(telecom.v2.connect.Connection.new(..));
@@ -40,8 +46,9 @@ public aspect Pointcuts {
 	public pointcut connectionDropped() : execution(* telecom.v2.connect.Connection.drop(..));
     
 	//Detect l'appel aux differentes simumlation
-	public pointcut testsCall() : call(void telecom.v2.simulate.Simulation.runTest*(..)); 
-	
+	public pointcut testsCall() : call(void telecom.v2.simulate.Simulation.runTest*(..));
+    public pointcut withinTest() : withincode(void telecom.v2.simulate.Simulation.runTest*(..));
+
 	// Detecte l'unicité d'un client
 	// Si le nom d'un client n'est pas unique, une NotUniqueException est levée
 	public pointcut checkUnicity() : set(@UniqueId final String telecom.v2.connect.*.*);

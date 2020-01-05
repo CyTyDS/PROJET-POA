@@ -10,18 +10,18 @@ import telecom.v2.common.Pointcuts;
 public privileged aspect TracingManagement {
 
 	private final Set<ICustomer> Call.dropped = new HashSet<ICustomer>();
-//	private final Set<ICustomer> Call.ourPending = new HashSet<ICustomer>();
+	private final Set<ICustomer> Call.ourPending = new HashSet<ICustomer>();
 	
 	public Set<ICustomer> Call.getDropped() {
 		return dropped;
 	}
 	
-//	public Set<ICustomer> Call.getPending() {
-//		return ourPending;
-//	}
+	public Set<ICustomer> Call.getPending() {
+		return ourPending;
+	}
 
 	/**
-	 * Formate l'affichage d'un ensemble de ICustomer en cha�ne de caract�res.
+	 * Formate l'affichage d'un ensemble de ICustomer en chaîne de caract�res.
 	 */
 	private String Call.setToString(Set<ICustomer> s) {
         String result = "|";
@@ -47,12 +47,12 @@ public privileged aspect TracingManagement {
         result += setToString(getDropped());
         return result + ">";
 	}
-//	after(Call ca, ICustomer cust) : Pointcuts.customerCall() && this(cust) && args(ca) {
-//		ca.ourPending.add(cust);
-//	}
-//	after(Call ca, ICustomer cust) : Pointcuts.callPickUp() && this(ca) && args(cust) {
-//		ca.ourPending.remove(cust);
-//	}
+	after(Call ca, ICustomer cust) : Pointcuts.customerCall() && this(cust) && args(ca) {
+		ca.ourPending.add(cust);
+	}
+	after(Call ca, ICustomer cust) : Pointcuts.callPickUp() && this(ca) && args(cust) {
+		ca.ourPending.remove(cust);
+	}
 	after(Call ca, ICustomer cust) : Pointcuts.callDropped() && this(ca) && args(cust) {
 		ca.dropped.add(cust);
 	}

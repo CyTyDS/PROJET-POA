@@ -6,10 +6,10 @@ import telecom.v2.trace.SimulationMessages;
 
 public privileged aspect SimulationTracing {
 	
-	private SimulationFormatter indenter = new SimulationFormatter(0,"|  ");
+	public static SimulationFormatter indenter = new SimulationFormatter(0,"|  ");
 	
 	//Factorisation de code
-	private void addMessageBefore(JoinPoint jp, Object x) {
+	public void addMessageBefore(JoinPoint jp, Object x) {
 		String methName = jp.getSignature().getName();
 		SimulationMessages sm = SimulationMessages.get(x.getClass(),methName);
 		System.out.print(indenter.getIndent());
@@ -18,7 +18,7 @@ public privileged aspect SimulationTracing {
 	}
 	
 	//Factorisation de code
-	private void addMessageAfter(JoinPoint jp , Object x) {
+	public void addMessageAfter(JoinPoint jp , Object x) {
 		SimulationMessages sm = SimulationMessages.get(x.getClass(), "final");
 		indenter.removeLevel();
 		System.out.print(indenter.getIndent());
@@ -27,7 +27,7 @@ public privileged aspect SimulationTracing {
 			System.out.println();
 		}
 	}
-	
+	 
 
 	//Avant tout les appel a des methode de customer ()
 	before(Object x) : (Pointcuts.customerCall() || Pointcuts.customerHangUp() 
@@ -61,21 +61,21 @@ public privileged aspect SimulationTracing {
 		System.out.println("----------------------------------------");
 	}
 	
-//	after(telecom.v2.connect.Connection x) : Pointcuts.connectionPending() && this(x) {
-//		System.out.println(indenter.getIndent() 
-//				+ x.getClass().getSimpleName() + '@' + Integer.toHexString(x.hashCode()) 
-//				+ "(null -> PENDING)");
-//	}
-//	
-//	after(telecom.v2.connect.Connection x) : Pointcuts.connectionComplete() && this(x) {
-//		System.out.println(indenter.getIndent() 
-//				+ x.getClass().getSimpleName() + '@' + Integer.toHexString(x.hashCode()) 
-//				+ "(PENDING -> COMPLETE)");
-//	}
-//	
-//	after(telecom.v2.connect.Connection x) : Pointcuts.connectionDropped() && this(x) {
-//		System.out.println(indenter.getIndent() 
-//				+ x.getClass().getSimpleName() + '@' + Integer.toHexString(x.hashCode()) 
-//				+ "(COMPLETE -> DROPPED)");
-//	}
+	after(telecom.v2.connect.Connection x) : Pointcuts.connectionPending() && this(x) {
+		System.out.println(indenter.getIndent() 
+				+ x.getClass().getSimpleName() + '@' + Integer.toHexString(x.hashCode()) 
+				+ "(null -> PENDING)");
+	}
+	
+	after(telecom.v2.connect.Connection x) : Pointcuts.connectionComplete() && this(x) {
+		System.out.println(indenter.getIndent() 
+				+ x.getClass().getSimpleName() + '@' + Integer.toHexString(x.hashCode()) 
+				+ "(PENDING -> COMPLETE)");
+	}
+	
+	after(telecom.v2.connect.Connection x) : Pointcuts.connectionDropped() && this(x) {
+		System.out.println(indenter.getIndent() 
+				+ x.getClass().getSimpleName() + '@' + Integer.toHexString(x.hashCode()) 
+				+ "(COMPLETE -> DROPPED)");
+	}
 }

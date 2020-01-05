@@ -26,14 +26,10 @@ public aspect TimeManagement {
     	cal.timers = new HashMap<ICustomer, Timer>();
     }
 	   
-	    //Quand un nouveau client lance un appel on ajoute un timer et on le démarre.
+	//Quand un nouveau client lance un appel on ajoute un timer et on le démarre.
 	after(Call cal, ICustomer client) : Pointcuts.callCompleted() && this(cal) && args(client){
 		cal.addTimer(client, new Timer());
 		cal.getTimer(client).start();
 	}
 	
-	after(Call cal, ICustomer client) : Pointcuts.callFinished() && this(cal) && args(client) {
-		cal.getTimer(client).stop();
-		// TODO ICI FAUDRA QU ON TRACE LE TEMPS DE CO.
-	}
 }

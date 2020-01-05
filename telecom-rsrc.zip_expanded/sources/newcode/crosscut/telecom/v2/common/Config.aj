@@ -5,5 +5,5 @@ import telecom.v2.unicity.*;
 import telecom.v2.trace.*;
 
 public aspect Config {
-	declare precedence : Pointcuts, SimulationTracing, EnforceUnicity, BillManagement, TimeManagement, TracingManagement;
+	declare precedence : Pointcuts, SimulationTracing, EnforceUnicity, BillManagement, TimeManagement, TimeTracing, TracingManagement, BillTracing;
 }
