@@ -21,7 +21,7 @@ public privileged aspect TracingManagement {
 //	}
 
 	/**
-	 * Formate l'affichage d'un ensemble de ICustomer en chaîne de caractères.
+	 * Formate l'affichage d'un ensemble de ICustomer en chaï¿½ne de caractï¿½res.
 	 */
 	private String Call.setToString(Set<ICustomer> s) {
         String result = "|";
@@ -38,7 +38,7 @@ public privileged aspect TracingManagement {
     }
 		
 	/**
-	 * Formate l'affichage de l'instance de Call en chaîne de caractères.
+	 * Formate l'affichage de l'instance de Call en chaï¿½ne de caractï¿½res.
 	 */
 	public String Call.toString() {
 		String result = "<" + getCaller().getName();
@@ -56,6 +56,4 @@ public privileged aspect TracingManagement {
 	after(Call ca, ICustomer cust) : Pointcuts.callDropped() && this(ca) && args(cust) {
 		ca.dropped.add(cust);
 	}
-
-	
 }

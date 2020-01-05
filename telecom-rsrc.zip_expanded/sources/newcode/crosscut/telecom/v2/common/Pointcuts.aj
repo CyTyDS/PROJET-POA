@@ -33,6 +33,11 @@ public aspect Pointcuts {
 	
 	public pointcut callDropped() :
     	withincode(* telecom.v2.connect.Call.hangUp(..)); 
+	
+	// Detecte les changements d'états des connections
+	public pointcut connectionPending() : execution(telecom.v2.connect.Connection.new(..));
+	public pointcut connectionComplete() : execution(* telecom.v2.connect.Connection.complete(..));
+	public pointcut connectionDropped() : execution(* telecom.v2.connect.Connection.drop(..));
     
 	//Detect l'appel aux differentes simumlation
 	public pointcut testsCall() : call(void telecom.v2.simulate.Simulation.runTest*(..)); 
