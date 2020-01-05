@@ -47,7 +47,7 @@ public privileged aspect BillTracing {
 			msg += HASBEENCO_CONST + callerTime + CO_COSTTIME_CONST + testCallRef.getPrice() + CARRIAGE_RETURN;
 		} else {
 			msg += AWAITOF_CONST;
-			for (ICustomer c : testCallRef.getPending()) {
+			for (ICustomer c : testCallRef.pending.keySet()) {
 				msg += c.getName() + " ";
 			}
 			msg += COST_SUP_TO_CONST + testCallRef.getPrice() + CARRIAGE_RETURN;
