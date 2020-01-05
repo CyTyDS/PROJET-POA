@@ -22,8 +22,8 @@ public aspect Pointcuts {
 	// Detect l'appel a pickUp() d'un ICustomer
 	public pointcut customerPickUp() : call(* telecom.v2.connect.ICustomer.pickUp(..));
 
-	// Detect l'appel a invite() d'un ICustomer
-	public pointcut callInvite() : call(* telecom.v2.connect.ICustomer.invite(..));
+	// Detect l'appel a invite() d'un ICall
+	public pointcut callInvite() : call(* telecom.v2.connect.ICall.invite(..));
 
 	// Detect l'appel a hangUp() d'un ICall
 	public pointcut callHangUp() : call(* telecom.v2.connect.ICall.hangUp(..));
